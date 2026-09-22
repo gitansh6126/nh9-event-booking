@@ -1,0 +1,9 @@
+# Never commit credentials / local config
+config.php
+
+# Local tooling / editor noise
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,17 @@
+# NH9 Event Booking — Apache config for Hostinger (LiteSpeed compatible)
+# Blocks direct access to config.php (credentials) and directory browsing.
+
+<Files "config.php">
+    Require all denied
+</Files>
+
+Options -Indexes
+DirectoryIndex index.php
+
+# Cache static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 7 days"
+    ExpiresByType image/png "access plus 7 days"
+    ExpiresByType image/svg+xml "access plus 7 days"
+</IfModule>
