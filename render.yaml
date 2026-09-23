@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: nh9-event-platform
+    runtime: docker
+    plan: free
+    autoDeploy: true
+    dockerfilePath: render/Dockerfile
+    dockerContext: .
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 80
+      - key: DATABASE_URL
+        fromDatabase:
+          name: nh9-platform-db
+          property: connectionString
+      - key: APP_KEY
+        value: base64:OVrRtYojNgBTJQWrOmjUnVn55zRHjwl5Za/VKRBg9CY=
+      - key: JWT_SECRET
+        generateValue: true
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: MAIL_MAILER
+        value: array
+      - key: FILESYSTEM_PUBLIC_DISK
+        value: public
+      - key: FILESYSTEM_PRIVATE_DISK
+        value: local
+databases:
+  - name: nh9-platform-db
+    plan: free

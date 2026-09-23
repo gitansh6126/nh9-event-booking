@@ -1,0 +1,13 @@
+.note {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--mantine-color-dimmed);
+  margin-bottom: 12px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
