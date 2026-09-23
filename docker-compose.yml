@@ -1,0 +1,40 @@
+services:
+  db:
+    image: mysql:8
+    container_name: nh9_db
+    restart: unless-stopped
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nh9_booking
+      MYSQL_USER: nh9
+      MYSQL_PASSWORD: nh9_secret
+    ports:
+      - "3307:3306"
+    volumes:
+      - nh9_dbdata:/var/lib/mysql
+    entrypoint: ["bash", "-c", "/usr/local/bin/docker-entrypoint.sh mysqld"]
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: nh9_web:local
+    container_name: nh9_web
+    restart: unless-stopped
+    platform: linux/amd64
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html:cached
+
+volumes:
+  nh9_dbdata:

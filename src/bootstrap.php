@@ -10,7 +10,12 @@ date_default_timezone_set('Asia/Kolkata');
 error_reporting(E_ALL);
 ini_set('display_errors', '1'); // set to '0' in production
 
-$CONFIG = array_merge([], require __DIR__ . '/../config.php');
+// Prefer a local/config.php for development (docker-compose mounts/uses it) —
+// falls back to config.php for normal deploys. config.local.php is gitignored.
+$configFile = is_file(__DIR__ . '/../config.local.php')
+    ? __DIR__ . '/../config.local.php'
+    : __DIR__ . '/../config.php';
+$CONFIG = array_merge([], require $configFile);
 
 // --- CSRF ----------------------------------------------------------------
 function csrf_token(): string
