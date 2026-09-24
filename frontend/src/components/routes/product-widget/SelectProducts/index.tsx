@@ -777,6 +777,7 @@ const SelectProducts = (props: SelectProductsProps) => {
                                                         form={form}
                                                         eventOccurrenceId={selectedOccurrenceId}
                                                         displayMode={'header'}
+                                                        showStepper={!isProductCollapsed}
                                                     />
                                                 </div>
                                             )}

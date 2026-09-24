@@ -1,8 +1,8 @@
 import {Currency, getExclusiveFeeNote, getInclusiveFeeNote, ProductPriceDisplay} from "../../../../../common/Currency";
 import {Event, IdParam, Product, ProductPrice, TaxAndFeeType} from "../../../../../../types.ts";
 import {TextInput} from "@mantine/core";
+import {NumberSelector} from "../../../../../common/NumberSelector";
 import {UseFormReturnType} from "@mantine/form";
-import {QuantitySelect} from "../QuantitySelect";
 import {t} from "@lingui/macro";
 import {IconClock} from "@tabler/icons-react";
 import {useEffect, useRef, useState} from "react";
@@ -19,6 +19,7 @@ interface TieredPricingProps {
     productIndex: number;
     eventOccurrenceId?: IdParam;
     displayMode?: 'header' | 'list';
+    showStepper?: boolean;
 }
 
 const getFeesAndTaxTotal = (price: ProductPrice): number => (price.tax_total || 0) + (price.fee_total || 0);
@@ -46,6 +47,7 @@ export const TieredPricing = ({
                                   productIndex,
                                   eventOccurrenceId,
                                   displayMode = 'list',
+                                  showStepper = true,
                               }: TieredPricingProps) => {
     const [limitMessages, setLimitMessages] = useState<{ [priceIndex: number]: string }>({});
     const limitTimeoutsRef = useRef<{ [priceIndex: number]: ReturnType<typeof setTimeout> }>({});
@@ -96,8 +98,8 @@ export const TieredPricing = ({
 
     const renderQuantityControl = (price: ProductPrice, index: number) => (
         <div className={'hi-product-quantity-selector'}>
-            {(product.is_available && price.is_available) && (
-                <QuantitySelect
+            {(product.is_available && price.is_available) && showStepper && (
+                <NumberSelector
                     min={product.min_per_order ?? 0}
                     max={getQuantityCap(price)}
                     fieldName={`products.${productIndex}.quantities.${index}.quantity`}

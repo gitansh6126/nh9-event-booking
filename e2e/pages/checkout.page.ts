@@ -10,13 +10,6 @@ export interface BuyerDetails {
 
 export async function setWidgetQuantity(scope: Locator | FrameLocator | CheckoutSurface, quantity: number): Promise<void> {
   const selector = scope.locator('.hi-product-quantity-selector').first();
-  const selectButton = selector.getByTestId('product-quantity-select-button');
-  if (await selectButton.count()) {
-    const dropdown = selector.locator('.hi-quantity-select-dropdown');
-    if (!(await dropdown.isVisible())) {
-      await selectButton.click();
-    }
-  }
   const input = selector.locator('input');
   if (!(await input.isVisible())) {
     if (quantity === 0) {

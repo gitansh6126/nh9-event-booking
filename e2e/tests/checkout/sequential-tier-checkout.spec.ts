@@ -26,7 +26,7 @@ test.describe('sequential tier release', () => {
     const productRow = page.locator('.hi-product-row').filter({ hasText: 'Sequential Ticket' });
     const earlyBirdRow = page.locator('.hi-price-tier-row').filter({ hasText: 'Early bird' });
     const generalRow = page.locator('.hi-price-tier-row').filter({ hasText: 'General' });
-    await expect(earlyBirdRow.getByTestId('product-quantity-select-button')).toBeVisible();
+    await expect(earlyBirdRow.getByRole('button', { name: 'Increase quantity' })).toBeVisible();
     await expect(generalRow).toHaveAttribute('data-unavailable', 'locked');
     await expect(generalRow.getByText('Not yet on sale')).toBeVisible();
 
@@ -35,7 +35,7 @@ test.describe('sequential tier release', () => {
 
     await expect(earlyBirdRow.getByText('Sold out')).toBeVisible();
     await expect(generalRow).not.toHaveAttribute('data-unavailable');
-    await expect(generalRow.getByTestId('product-quantity-select-button')).toBeVisible();
+    await expect(generalRow.getByRole('button', { name: 'Increase quantity' })).toBeVisible();
 
     await createCompletedOrder(publicApi, { ...event, priceId: generalPriceId });
     await checkout.gotoPublicEventAfterAvailabilityCacheExpires(event.eventId, event.slug);
